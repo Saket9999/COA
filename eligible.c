@@ -6,7 +6,7 @@ int main()
 {
 double start;
 double end,etime;
-  int n=10,i,v=1,m=0;
+  int n=10,i,v=2;
  int  a[n],b[n],c[n],d[n],e[n];
   
   for(i=0;i<n;i++)
@@ -14,26 +14,37 @@ double end,etime;
     printf("Enter Age Of %d Person ",i);
     scanf("%d",&a[i]);
   }  
-  
+  omp_set_num_threads(v);
   #pragma omp parallel //sections
   {
   
   //  #pragma omp section
     for(i=0;i<n;i++)
     {
-    if(a[i]>=16 & a[i]<18)
+    
+  //  f:
+    if(a[i]>=16 & a[i]<18 & (omp_get_thread_num()==1))
+ 
     {
-      omp_set_num_threads(v);
-      printf("My Thread is %d And Person Whose Age Is %d Eligible\n",omp_get_thread_num(),a[i]);
+  
+        printf("My Thread is %d And Person Whose Age Is %d Eligible\n",omp_get_thread_num(),a[i]);
     } 
-    else
+    else if(  !(a[i]>=16 & a[i]<18) & (omp_get_thread_num()==0))
     { 
-       omp_set_num_threads(m);
+       
        printf("My Thread is %d And Person Whose Age Is %d Not Eligible\n",omp_get_thread_num(),a[i]);
-     }  
+     }
+     else if((a[i]>=16 & a[i]<18) |!(a[i]>=16 & a[i]<18)) 
+     {
+        i=i-1;
+        continue;
+      //   goto f;
+               
+      } 
+    
      }  
     etime=end-start;
-printf("\nWorking time iin %fSecound\n",etime);
+  printf("\nWorking time iin %fSecound\n",etime);
     
     
  /* //   #pragma omp section
