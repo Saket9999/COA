@@ -11,7 +11,7 @@ double end,etime;
   
   for(i=0;i<n;i++)
   {
-    printf("Enter Age Of %d Person ",i);
+    printf("Enter Age Of %d Person ",i+1);
     scanf("%d",&a[i]);
   }  
   omp_set_num_threads(v);
@@ -43,8 +43,7 @@ double end,etime;
       } 
     
      }  
-    etime=end-start;
-  printf("\nWorking time iin %fSecound\n",etime);
+    
     
     
  /* //   #pragma omp section
